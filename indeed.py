@@ -1,3 +1,4 @@
+from genericpath import exists
 import requests
 from bs4 import BeautifulSoup
 
@@ -29,9 +30,11 @@ def extract_indeed_jobs(last_page):
     
     soup = BeautifulSoup(result.text, 'html.parser')
 
-    results = soup.select("h2.jobTitle > span")
+    results = soup.find_all("table", {"class": "jobCard_mainContent"})
     
     for result in results:
-        jobs.append(result)
-        print(result.string)
+        title = result.select("h2.jobTitle span:last-child")[0].text
+        company = result.find("span", {"class": "companyName"}).string
+        print(f"{title} - {company}")
+    
     return jobs
