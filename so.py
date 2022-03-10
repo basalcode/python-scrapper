@@ -14,7 +14,10 @@ def get_last_page():
 def extract_job(html):
     title = html.find("a", {"class": "s-link"}).string
     company = html.select("h3.fc-black-700 span:first-child")[0].string
-    #company = company.get_text(strip=True)
+    company = company is not None and company.strip("\n").strip("\r").rstrip()
+
+    print(company)
+
     location = html.select("h3.fc-black-700 span:last-child")[0].string
     location = location.get_text(strip=True).strip("\r").strip("\n")
     job_id = html['data-jobid']
