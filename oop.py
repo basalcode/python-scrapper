@@ -10,6 +10,17 @@ class Car():
     def __str__(self):
         return f"Car with {self.wheels} wheels"
 
+class Convertible(Car):
+    def __init__(self, **keyword_arguments):
+        super().__init__(**keyword_arguments)
+        self.time = kwargs.get("time", 10)
+
+    def take_off(self):
+        return "taking off"
+    def __str__(self):
+        return f"Car with no roof"
+
+
 
 porche = Car(color="green", price="$40")
 print(porche.color, porche.price)
