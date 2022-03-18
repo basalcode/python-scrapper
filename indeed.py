@@ -3,10 +3,9 @@ import requests
 from bs4 import BeautifulSoup
 
 LIMIT = 50
-URL = f"https://www.indeed.com/jobs?q=python&limit={LIMIT}"
 
-def get_last_page():
-    result = requests.get(URL)
+def get_last_page(url):
+    result = requests.get(url)
 
     soup = BeautifulSoup(result.text, 'html.parser')
 
@@ -47,8 +46,9 @@ def extract_jobs(last_page):
     
     return jobs
 
-def get_jobs():
-    last_pages = get_last_page()
+def get_jobs(word):
+    url = f"https://www.indeed.com/jobs?q={word}&limit={LIMIT}"
+    last_pages = get_last_page(url)
     jobs = extract_jobs(last_pages)
 
     return jobs

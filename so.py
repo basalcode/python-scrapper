@@ -2,10 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 
 LIMIT = 50
-URL = f"https://stackoverflow.com/jobs?q=python&sort=i"
 
-def get_last_page():
-    result = requests.get(URL)
+def get_last_page(url):
+    result = requests.get(url)
     soup = BeautifulSoup(result.text, "html.parser")
     pages = soup.select("a.s-pagination--item span")
     pages = pages[-2]
@@ -36,7 +35,8 @@ def extract_jobs(last_page):
             jobs.append(job)
     return jobs
 
-def get_jobs():
-    last_page = get_last_page()
+def get_jobs(word):
+    url = f"https://stackoverflow.com/jobs?q=word&sort=i"
+    last_page = get_last_page(url)
     jobs = extract_jobs(last_page)
     return jobs
