@@ -30,11 +30,11 @@ def extract_job(html):
 
     return {"title": title, "company": company, "location": location, "link": f"https://www.indeed.com/viewjob?jk={job_id}"}
 
-def extract_jobs(last_page):
+def extract_jobs(url, last_page):
     jobs = []
     for page in range(last_page):
         print(f"Scrapping page {page}")
-        result = requests.get(f"{URL}&start={0 * LIMIT}")
+        result = requests.get(f"{url}&start={0 * LIMIT}")
         
         soup = BeautifulSoup(result.text, 'html.parser')
 
@@ -49,6 +49,6 @@ def extract_jobs(last_page):
 def get_jobs(word):
     url = f"https://www.indeed.com/jobs?q={word}&limit={LIMIT}"
     last_pages = get_last_page(url)
-    jobs = extract_jobs(last_pages)
+    jobs = extract_jobs(url, last_pages)
 
     return jobs

@@ -1,9 +1,9 @@
-from encodings import search_function
-from pydoc import render_doc
-from flask import Flask, redirect, render_template, render_template_string, request
+from flask import Flask, redirect, render_template, request
 from job_scrapper import get_jobs
 
 app = Flask("SuperScrapper")
+
+db = {}
 
 @app.route("/")
 def home():
@@ -12,12 +12,23 @@ def home():
 @app.route("/report")
 def report():
     word = request.args.get('word')
+    fromDb = db.get(word)
 
     if word:
         word = word.lower()
-        jobs = get_jobs()
+        fromDb = db.get(word)
+        if fromDb:
+           jobs = fromDb
+        else:
+            jobs = get_jobs(word)
+            db[word] = jobs
     else:
         return redirect("/")
-    return render_template("report.html", searchingBy=word)
+    return render_template(
+        "report.html", 
+        searchingBy=word,
+        resultsNumber=len(jobs),
+        jobs=jobs
+    )
 
 app.run(host="0.0.0.0")

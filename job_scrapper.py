@@ -9,3 +9,5 @@ def get_jobs(word):
 
     jobs = indeed_jobs + so_jobs
     save_to_file(jobs)
+
+    return jobs
